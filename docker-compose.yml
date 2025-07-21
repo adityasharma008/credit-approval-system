@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:17.5-alpine
+    container_name: postgres_container
+    environment:
+      - POSTGRES_DB=creditdb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
