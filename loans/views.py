@@ -47,6 +47,7 @@ def create_loan(request):
    eligibility_result = check_eligibility_helper(customer_id, loan_amount, interest_rate, tenure)
 
    if not eligibility_result['approval']:
+      print('This was executed')
       return Response({
          "loan_id": None,
          "customer_id": customer_id,
@@ -179,9 +180,9 @@ def check_eligibility_helper(customer_id, loan_amount, interest_rate, tenure):
 
    message = ""
    if approval:
-      message = "Loan approved!"
+      message = "Loan approved successfully"
    else: 
-      message = "Loan denied: Low credit score"
+      message = "Loan denied: Wrong interest rate or low credit score"
       
    return {
       "customer_id": customer_id,
