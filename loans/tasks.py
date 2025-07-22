@@ -2,6 +2,7 @@ import pandas as pd
 from celery import shared_task
 from customers.models import Customer
 from .models import Loan
+from utils.reset_primary_key import reset_pk
 
 @shared_task
 def injest_loan_data(file_path):
@@ -26,5 +27,6 @@ def injest_loan_data(file_path):
                 "end_date": pd.to_datetime(row["End Date"]).date()
             }   
         )
-        
+    
+    reset_pk(Loan)       
 

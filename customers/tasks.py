@@ -1,6 +1,7 @@
 import pandas as pd
 from celery import shared_task
 from .models import Customer
+from utils.reset_primary_key import reset_pk
 
 @shared_task
 def injest_customer_data(file_path):
@@ -17,3 +18,5 @@ def injest_customer_data(file_path):
                "approved_limit": row["Approved Limit"],
          }
       )
+
+   reset_pk(Customer)
