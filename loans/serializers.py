@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from customers.models import Customer
+from .models import Loan
 
 class CheckEligibilitySerializer(serializers.Serializer):
     customer_id = serializers.IntegerField()
@@ -26,3 +27,25 @@ class CheckEligibilitySerializer(serializers.Serializer):
         if value <= 0:
             raise serializers.ValidationError("Tenure must be positive")
         return value
+    
+class ViewLoanSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source='customer.customer_id')
+    customer_first_name = serializers.CharField(source='customer.first_name')
+    customer_last_name = serializers.CharField(source='customer.last_name')
+    customer_phone_number = serializers.CharField(source='customer.phone_number')
+    customer_age = serializers.IntegerField(source='customer.age')
+
+    class Meta:
+        model = Loan
+        fields = [
+            'loan_id',
+            'customer_id',
+            'customer_first_name',
+            'customer_last_name',
+            'customer_phone_number',
+            'customer_age',
+            'loan_amount',
+            'interest_rate',
+            'monthly_installment',
+            'tenure'
+        ]

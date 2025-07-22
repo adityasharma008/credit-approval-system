@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import CheckEligibilitySerializer
+from .serializers import CheckEligibilitySerializer, ViewLoanSerializer
 from rest_framework import status
 from customers.models import Customer
 from .models import Loan
@@ -78,7 +78,15 @@ def create_loan(request):
       "monthly_installment": round(eligibility_result['monthly_installment'], 2)
    }, status=201)
 
-
+@api_view(['GET'])
+def view_loan(request, loan_id):
+    try:
+        loan = Loan.objects.get(pk=loan_id)
+    except Loan.DoesNotExist:
+        return Response({"error": "Loan not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ViewLoanSerializer(loan)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 def calculate_emi(principal, annual_rate, months):
