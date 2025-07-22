@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import test_hello_world
+from .views import check_eligibility
 
 urlpatterns = [
-   path('test/', test_hello_world)
+   path('check-eligibility/', check_eligibility)
 ]

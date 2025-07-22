@@ -5,7 +5,7 @@ class Customer(models.Model):
    first_name = models.CharField(max_length=100, blank=False)
    last_name = models.CharField(max_length=100, blank=False)
    age = models.PositiveIntegerField()
-   phone_number = models.BigIntegerField()
+   phone_number = models.BigIntegerField(unique=True)
    monthly_salary = models.PositiveIntegerField()
    approved_limit = models.PositiveIntegerField()
    current_debt = models.PositiveIntegerField(default=0)
