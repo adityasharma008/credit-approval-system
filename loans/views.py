@@ -6,6 +6,8 @@ from customers.models import Customer
 from .models import Loan
 from datetime import timedelta
 from django.utils import timezone
+from decimal import Decimal
+
 
 @api_view(['POST'])
 def check_eligibility(request):
@@ -126,7 +128,7 @@ def check_eligibility_helper(customer_id, loan_amount, interest_rate, tenure):
    
    # If sum of all current EMIs > 50% of monthly salary, don’t approve any loans
    new_emi = calculate_emi(loan_amount, interest_rate, tenure)
-   total_emi = sum(l.monthly_repayment for l in current_loans) + new_emi
+   total_emi = sum(l.monthly_installment for l in current_loans) + Decimal(str(new_emi))
    if total_emi > 0.5 * customer.monthly_salary:
       return {
          "customer_id": customer_id,
