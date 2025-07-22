@@ -2,6 +2,7 @@ services:
   web:
     build: .
     container_name: django_container
+    entrypoint: ./entrypoint.sh
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app/
@@ -10,6 +11,18 @@ services:
     depends_on:
       - db
       - redis
+    env_file:
+      - .env
+
+  celery:
+    build: .
+    container_name: celery_container
+    command: celery -A credit_approval_system worker --loglevel=info
+    volumes:
+      - .:/app/
+    depends_on:
+      - redis
+      - db
     env_file:
       - .env
 
