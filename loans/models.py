@@ -7,7 +7,7 @@ class Loan(models.Model):
    loan_amount = models.DecimalField(max_digits=12, decimal_places=2)
    tenure = models.PositiveIntegerField()
    interest_rate = models.DecimalField(max_digits=4, decimal_places=2)
-   monthly_repayment = models.DecimalField(max_digits=12, decimal_places=2)
+   monthly_installment = models.DecimalField(max_digits=12, decimal_places=2)
    emi_paid_on_time = models.PositiveIntegerField(default=0)
    start_date = models.DateField()
    end_date = models.DateField()
