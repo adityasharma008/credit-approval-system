@@ -88,6 +88,18 @@ def view_loan(request, loan_id):
     serializer = ViewLoanSerializer(loan)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def view_customer_loans(request, customer_id):
+   try:
+      customer = Customer.objects.get(customer_id=customer_id)
+   except Customer.DoesNotExist:
+      return Response({"error": "Customer not found"}, status=status.HTTP_404_NOT_FOUND)
+
+   loans = Loan.objects.filter(customer=customer)
+   serializer = ViewLoanSerializer(loans, many=True)
+   return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 def calculate_emi(principal, annual_rate, months):
    r = (annual_rate / 100) / 12
